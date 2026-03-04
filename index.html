@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)file:///Users/alvaroquintero/Downloads/viewnot-index%20(1).html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viewnot — Live Show Analytics for Whatnot Sellers</title>
+  <meta name="description" content="Real-time orders, revenue, and performance metrics for your Whatnot live shows. Know your numbers while you sell.">
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="./index&#39;_files/css2" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0A0A0A;
+      --white: #FAFAFA;
+      --cyan: #00C4E8;
+      --cyan-light: #E6F9FD;
+      --gray-100: #F4F4F4;
+      --gray-200: #E8E8E8;
+      --gray-400: #A0A0A0;
+      --gray-600: #606060;
+      --gray-800: #282828;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(250,250,250,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 22px;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-logo span { color: var(--cyan); }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px; font-weight: 500;
+      color: var(--gray-600);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-cta {
+      background: var(--black) !important;
+      color: var(--white) !important;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      transition: opacity 0.2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.8 !important; }
+
+    /* ── HERO ─────────────────────────────────────────── */
+    .hero {
+      padding: 160px 48px 100px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--cyan-light);
+      color: #0088AA;
+      font-size: 12px; font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: 58px;
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      color: var(--black);
+      margin-bottom: 24px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--cyan);
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--gray-600);
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex; align-items: center; gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--sans);
+      font-size: 14px; font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent;
+      color: var(--gray-600);
+      font-family: var(--sans);
+      font-size: 14px; font-weight: 500;
+      padding: 14px 4px;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .btn-secondary:hover { color: var(--black); }
+
+    .hero-note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+
+    /* ── WIDGET MOCKUP ────────────────────────────────── */
+    .widget-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .widget-shadow {
+      position: absolute;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(0,196,232,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .widget {
+      background: #111118;
+      border-radius: 16px;
+      padding: 24px;
+      width: 300px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.06);
+      position: relative;
+      z-index: 2;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .widget-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .widget-live {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700;
+      color: #FF4444;
+      letter-spacing: 0.5px;
+    }
+
+    .live-dot {
+      width: 7px; height: 7px;
+      background: #FF4444;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    .widget-timer {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #5A6070;
+    }
+
+    .widget-host {
+      font-size: 10px; color: #5A6070;
+      background: rgba(255,255,255,0.05);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .widget-section-label {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 1.2px;
+      color: #4A5060;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .widget-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .metric-cell {
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .metric-label {
+      font-size: 8px; font-weight: 600;
+      color: #4A5060;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 18px; font-weight: 700;
+      color: #F0F2F8;
+      line-height: 1;
+    }
+
+    .metric-value.cyan { color: #00C4E8; }
+
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .widget-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 14px 0;
+    }
+
+    .widget-all-section { margin-bottom: 16px; }
+
+    .widget-all-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .widget-asp-total {
+      background: rgba(0,196,232,0.08);
+      border: 1px solid rgba(0,196,232,0.15);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .asp-label { font-size: 9px; color: #4A5060; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+    .asp-value { font-size: 16px; font-weight: 700; color: #00C4E8; }
+
+    /* ── STATS BAR ────────────────────────────────────── */
+    .stats-bar {
+      background: var(--gray-100);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .stats-bar-inner {
+      max-width: 1100px; margin: 0 auto;
+      padding: 32px 48px;
+      display: flex; justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 36px;
+      color: var(--black);
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--gray-400);
+      font-weight: 400;
+    }
+
+    .stat-divider {
+      width: 1px; height: 48px;
+      background: var(--gray-200);
+    }
+
+    /* ── METRICS SECTION ──────────────────────────────── */
+    .metrics-section {
+      max-width: 1100px; margin: 0 auto;
+      padding: 100px 48px;
+    }
+
+    .section-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: 42px;
+      line-height: 1.12;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 16px;
+      color: var(--gray-600);
+      line-height: 1.65;
+      max-width: 480px;
+      margin-bottom: 56px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--gray-200);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .metric-card {
+      background: var(--white);
+      padding: 36px 32px;
+      position: relative;
+    }
+
+    .metric-card-num {
+      font-family: var(--serif);
+      font-size: 48px;
+      color: var(--black);
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .metric-card-name {
+      font-size: 13px; font-weight: 600;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+
+    .metric-card-desc {
+      font-size: 13px;
+      color: var(--gray-400);
+      line-height: 1.55;
+    }
+
+    .metric-tag {
+      position: absolute;
+      top: 20px; right: 20px;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 100px;
+    }
+
+    .tag-hour {
+      background: var(--cyan-light);
+      color: #0088AA;
+    }
+
+    .tag-show {
+      background: #F0F0F0;
+      color: var(--gray-600);
+    }
+
+    /* ── HOW IT WORKS ─────────────────────────────────── */
+    .how-section {
+      background: var(--gray-100);
+      padding: 100px 48px;
+    }
+
+    .how-inner {
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+      margin-top: 56px;
+    }
+
+    .step-num {
+      font-family: var(--serif);
+      font-size: 56px;
+      color: var(--gray-200);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .step-title {
+      font-size: 16px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.65;
+    }
+
+    /* ── PRICING ──────────────────────────────────────── */
+    .pricing-section {
+      max-width: 1100px; margin: 0 auto;
+      padding: 100px 48px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 760px;
+      margin: 56px auto 0;
+    }
+
+    .pricing-card {
+      border: 1.5px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 36px 32px;
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--black);
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -12px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--cyan);
+      color: var(--black);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 100px;
+    }
+
+    .pricing-tier {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 12px;
+    }
+
+    .pricing-card.featured .pricing-tier { color: #5A6070; }
+
+    .pricing-price {
+      font-family: var(--serif);
+      font-size: 52px;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .pricing-per {
+      font-size: 13px;
+      color: var(--gray-400);
+      margin-bottom: 28px;
+    }
+
+    .pricing-card.featured .pricing-per { color: #5A6070; }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .pricing-features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px;
+      color: var(--gray-600);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gray-100);
+      line-height: 1.4;
+    }
+
+    .pricing-card.featured .pricing-features li {
+      color: #A0A8B8;
+      border-bottom-color: rgba(255,255,255,0.07);
+    }
+
+    .pricing-features li:last-child {
+      border-bottom: none;
+    }
+
+    .check {
+      width: 16px; height: 16px;
+      background: var(--cyan);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .check svg { width: 8px; height: 8px; }
+
+    .btn-pricing {
+      display: block; width: 100%;
+      text-align: center;
+      padding: 13px;
+      border-radius: 9px;
+      font-family: var(--sans);
+      font-size: 14px; font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-pricing:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    .btn-pricing-outline {
+      border: 1.5px solid var(--gray-200) !important;
+      background: transparent;
+      color: var(--black);
+    }
+
+    .btn-pricing-solid {
+      background: var(--cyan);
+      color: var(--black);
+    }
+
+    /* ── CTA STRIP ────────────────────────────────────── */
+    .cta-strip {
+      background: var(--black);
+      padding: 80px 48px;
+      text-align: center;
+    }
+
+    .cta-strip h2 {
+      font-family: var(--serif);
+      font-size: 44px;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .cta-strip p {
+      font-size: 16px;
+      color: #6A7080;
+      margin-bottom: 36px;
+    }
+
+    .btn-cta-light {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--sans);
+      font-size: 14px; font-weight: 600;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .btn-cta-light:hover { opacity: 0.85; }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid #1A1A1A;
+      padding: 32px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 18px;
+      color: #3A3A3A;
+      text-decoration: none;
+    }
+
+    .footer-logo span { color: #1A5A6A; }
+
+    .footer-links {
+      display: flex; gap: 24px; list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: #3A3A3A;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: #6A7080; }
+
+    .footer-copy {
+      font-size: 12px;
+      color: #2A2A2A;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 48px; padding: 120px 24px 60px; }
+      .widget-wrap { order: -1; }
+      nav { padding: 16px 24px; }
+      h1 { font-size: 40px; }
+      .metrics-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 32px; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .stats-bar-inner { flex-wrap: wrap; justify-content: center; }
+      .stat-divider { display: none; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="file:///" class="nav-logo">View<span>not</span></a>
+  <ul class="nav-links">
+    <li><a href="file:///Users/alvaroquintero/Downloads/viewnot-index%20(1).html#metrics">Metrics</a></li>
+    <li><a href="file:///Users/alvaroquintero/Downloads/viewnot-index%20(1).html#how">How it works</a></li>
+    <li><a href="file:///Users/alvaroquintero/Downloads/viewnot-index%20(1).html#pricing">Pricing</a></li>
+    <li><a href="https://chromewebstore.google.com/" class="nav-cta">Add to Chrome — Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Now in beta for Whatnot sellers
+    </div>
+    <h1>Know your numbers <em>while</em> you sell.</h1>
+    <p class="hero-sub">
+      Viewnot is a Chrome extension that tracks your live show performance in real time — orders, revenue, units, and average selling price per hour. No tab switching. No guessing.
+    </p>
+    <div class="hero-actions">
+      <a href="https://chromewebstore.google.com/" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+        Add to Chrome — Free
+      </a>
+      <a href="file:///Users/alvaroquintero/Downloads/viewnot-index%20(1).html#how" class="btn-secondary">
+        See how it works →
+      </a>
+    </div>
+    <p class="hero-note">No account needed. Works on any Whatnot live show.</p>
+  </div>
+
+  <div class="widget-wrap">
+    <div class="widget-shadow"></div>
+    <div class="widget">
+      <div class="widget-header">
+        <div class="widget-live"><div class="live-dot"></div> LIVE</div>
+        <div class="widget-timer">01:24:38</div>
+        <div class="widget-host">lily</div>
+      </div>
+
+      <div class="widget-section-label">This Hour</div>
+      <div class="widget-metrics">
+        <div class="metric-cell">
+          <div class="metric-label">Orders</div>
+          <div class="metric-value">47</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">Units</div>
+          <div class="metric-value">63</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">Revenue</div>
+          <div class="metric-value cyan" style="font-size:13px;">$940</div>
+        </div>
+      </div>
+      <div class="widget-row">
+        <div class="metric-cell">
+          <div class="metric-label">ASP/hr</div>
+          <div class="metric-value" style="font-size:14px;">$19.98</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">AUO</div>
+          <div class="metric-value">1.34</div>
+        </div>
+      </div>
+
+      <div class="widget-divider"></div>
+
+      <div class="widget-section-label">All Show</div>
+      <div class="widget-all-metrics">
+        <div class="metric-cell">
+          <div class="metric-label">Orders</div>
+          <div class="metric-value">142</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">Units</div>
+          <div class="metric-value">198</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">Revenue</div>
+          <div class="metric-value cyan" style="font-size:12px;">$2,840</div>
+        </div>
+      </div>
+      <div class="widget-asp-total">
+        <div class="asp-label">ASP Total</div>
+        <div class="asp-value">$20.00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stat-item">
+      <div class="stat-num">6</div>
+      <div class="stat-label">metrics tracked live</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">0s</div>
+      <div class="stat-label">setup time</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">Free</div>
+      <div class="stat-label">to get started</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Whatnot native</div>
+    </div>
+  </div>
+</div>
+
+<!-- METRICS -->
+<section class="metrics-section" id="metrics">
+  <div class="section-label">What you get</div>
+  <h2>Every number that matters,<br>in real time.</h2>
+  <p class="section-sub">Six metrics computed automatically the moment your show starts. No setup, no manual logging.</p>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <span class="metric-tag tag-hour">Per Hour</span>
+      <div class="metric-card-num">47</div>
+      <div class="metric-card-name">Orders / hr</div>
+      <div class="metric-card-desc">Rolling 60-minute count of completed sales. Know your pace at any point in the show.</div>
+    </div>
+    <div class="metric-card">
+      <span class="metric-tag tag-hour">Per Hour</span>
+      <div class="metric-card-num">$940</div>
+      <div class="metric-card-name">Revenue / hr</div>
+      <div class="metric-card-desc">Total dollars sold in the last hour. See if you're on track for your show target.</div>
+    </div>
+    <div class="metric-card">
+      <span class="metric-tag tag-hour">Per Hour</span>
+      <div class="metric-card-num">63</div>
+      <div class="metric-card-name">Units / hr</div>
+      <div class="metric-card-desc">Total units moved in the last 60 minutes. Useful when you sell multi-unit bundles.</div>
+    </div>
+    <div class="metric-card">
+      <span class="metric-tag tag-hour">Per Hour</span>
+      <div class="metric-card-num">$19.98</div>
+      <div class="metric-card-name">ASP / hr</div>
+      <div class="metric-card-desc">Average selling price for the current hour. Know if your pricing is drifting up or down.</div>
+    </div>
+    <div class="metric-card">
+      <span class="metric-tag tag-show">Full Show</span>
+      <div class="metric-card-num">$20.00</div>
+      <div class="metric-card-name">ASP Total</div>
+      <div class="metric-card-desc">Average selling price across every order since the show started.</div>
+    </div>
+    <div class="metric-card">
+      <span class="metric-tag tag-show">Full Show</span>
+      <div class="metric-card-num">1.34</div>
+      <div class="metric-card-name">AUO</div>
+      <div class="metric-card-desc">Average units per order. Tells you if buyers are bundling or cherry-picking single items.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="section-label">How it works</div>
+    <h2>Install once.<br>Works every show.</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Add to Chrome</div>
+        <div class="step-desc">Install the free extension from the Chrome Web Store. One click, no account required to get started.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Go live on Whatnot</div>
+        <div class="step-desc">Navigate to your live show dashboard. Viewnot automatically detects the show and shows a prompt to start tracking.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Sell. Watch the numbers.</div>
+        <div class="step-desc">Every sale updates your metrics in real time. Click the Viewnot icon anytime to see your live dashboard.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div style="text-align:center;">
+    <div class="section-label">Pricing</div>
+    <h2>Start free. Upgrade when<br>the data gets serious.</h2>
+    <p class="section-sub" style="margin: 0 auto 0;">The live widget is always free. Upgrade for full show history and deeper analytics.</p>
+  </div>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-tier">Free</div>
+      <div class="pricing-price">$0</div>
+      <div class="pricing-per">forever</div>
+      <ul class="pricing-features">
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>Live HUD with all 6 metrics</li>
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>Orders, revenue &amp; units per hour</li>
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>ASP and AUO tracking</li>
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>1 host slot</li>
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>Last 7 days of show history</li>
+      </ul>
+      <a href="https://chromewebstore.google.com/" class="btn-pricing btn-pricing-outline">Add to Chrome</a>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-tier">Pro</div>
+      <div class="pricing-price">$49</div>
+      <div class="pricing-per">per month</div>
+      <ul class="pricing-features">
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>Everything in Free</li>
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>Full show history — every sale</li>
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>Per-host performance breakdown</li>
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>Up to 10 host slots</li>
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>Google Sheets export</li>
+        <li><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"></path></svg></span>Web dashboard at viewnot.com</li>
+      </ul>
+      <a href="mailto:hello@viewnot.com" class="btn-pricing btn-pricing-solid">Get Pro Access</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <h2>Start your next show<br>with the numbers on your side.</h2>
+  <p>Free to install. Works in 30 seconds. No account required.</p>
+  <a href="https://chromewebstore.google.com/" class="btn-cta-light">
+    Add Viewnot to Chrome — Free
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="file:///" class="footer-logo">View<span>not</span></a>
+  <ul class="footer-links">
+    <li><a href="file:///Users/alvaroquintero/Downloads/viewnot-index%20(1).html#metrics">Metrics</a></li>
+    <li><a href="file:///Users/alvaroquintero/Downloads/viewnot-index%20(1).html#pricing">Pricing</a></li>
+    <li><a href="file:///privacy">Privacy Policy</a></li>
+    <li><a href="mailto:hello@viewnot.com">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Viewnot</div>
+</footer>
+
+
+
+</body></html>
